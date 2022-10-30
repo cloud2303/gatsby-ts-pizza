@@ -3,3 +3,8 @@ node_modules/
 public
 .env*.local
 src/gatsby-types.d.ts
+
+.env*
+.flaskenv*
+!.env.project
+!.env.vault
