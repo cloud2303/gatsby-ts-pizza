@@ -3,16 +3,17 @@ import Layout from "../components/Layout";
 import PizzaList from "../components/PizzaList";
 import ToppingsFilter from "../components/ToppingsFilter";
 
-function Pizzas({data}:PageProps<Queries.PizzaQuery>){
+function Pizzas({ data, pageContext }: PageProps<Queries.PizzaQuery>) {
   let pizzas = data.pizzas.nodes
+  let { topping } = pageContext as unknown as { topping: string }
   return <>
-  <ToppingsFilter/>
-  <PizzaList pizzas={pizzas}/></>
+    <ToppingsFilter activeTopping={topping} />
+    <PizzaList pizzas={pizzas} /></>
 }
 export default Pizzas;
 export const query = graphql`
-  query Pizza{
-    pizzas:allSanityPizza {
+  query Pizza($topping:[String]){
+    pizzas:allSanityPizza(filter: {toppings:{elemMatch:{name:{in:$topping}}}}) {
     nodes {
       name
       id
